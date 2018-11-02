@@ -11,6 +11,10 @@ class Enigma
     format_return(encrypted, numbers, date)
   end
 
+  def format_return(encrypted, numbers, date)
+    {encryption: encrypted, key: numbers, date: date}
+  end
+
   def find_date
     Date.today.strftime("%d%m%y")
   end
