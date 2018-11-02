@@ -20,4 +20,11 @@ class RotationFinderTest < Minitest::Test
     date_numbers = [1, 0, 2, 5]
     assert_equal date_numbers, RotationFinder.find_date_numbers(date)
   end
+
+  def test_it_can_find_total_rotations
+    numbers = "24678"
+    date = "040895"
+    final_numbers = [25, 46, 69, 83]
+    assert_equal final_numbers, RotationFinder.find_rotations(numbers, date)
+  end
 end
