@@ -30,5 +30,6 @@ class EnigmaTest < Minitest::Test
     expected = Date.today.strftime("%d%m%y")
     e = Enigma.new
     assert_equal expected, e.find_date
+    assert_equal 6, e.find_date.length
   end
 end
