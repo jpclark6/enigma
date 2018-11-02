@@ -11,5 +11,9 @@ class RotationFinder
     last_4.map { |num_string| num_string.to_i }
   end
 
-
+  def self.find_rotations(numbers, date)
+    date_nums = find_date_numbers(date)
+    number_pairs = find_number_pairs(numbers)
+    number_pairs.map.with_index { |num, i| num + date_nums[i] }
+  end
 end
