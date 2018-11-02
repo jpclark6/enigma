@@ -53,4 +53,22 @@ class EnigmaTest < Minitest::Test
     date = "040895"
     assert_equal expected, e.format_return(encrypted, numbers, date)
   end
+
+  def test_it_can_decrypt_messages
+    e = Enigma.new
+    actual = e.decrypt("keder ohulw", "02715", "040895")
+    expected = {decryption: "hello world",
+                key: "02715",
+                date: "040895"
+                }
+    assert_equal expected, actual
+  end
+
+  def test_it_can_use_todays_date_to_encrypt
+    e = Enigma.new
+    date = e.find_date
+    expected = e.encrypt("hello world", "02715", date)
+    actual = e.encrypt("hello world", "02715")
+    assert_equal expected, actual
+  end
 end

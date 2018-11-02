@@ -28,13 +28,4 @@ class RotationFinderTest < Minitest::Test
     assert_equal final_numbers, RotationFinder.find_rotations(numbers, date)
   end
 
-  def test_it_can_decrypt_messages
-    e = Enigma.new
-    actual = e.decrypt("keder ohulw", "02715", "040895")
-    expected = {decryption: "hello world",
-                key: "02715",
-                date: "040895"
-                }
-    assert_equal expected, actual
-  end
 end
