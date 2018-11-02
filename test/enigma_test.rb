@@ -85,4 +85,11 @@ class EnigmaTest < Minitest::Test
     end
     assert zeros_at_front > 0
   end
+
+  def test_it_can_encrypt_without_key
+    e = Enigma.new
+    result = e.encrypt("hello world")
+    assert_equal 11, result[:encryption].length
+    assert_equal e.find_date, result[:date]
+  end
 end
