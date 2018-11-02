@@ -1,12 +1,11 @@
 require './test/test_helper'
 require 'minitest/autorun'
 require 'minitest/pride'
+require './lib/rotation_finder'
 
 class RotationFinderTest < Minitest::Test
   def test_it_exists
-    date = "010518"
-    numbers = "42314"
-    rotations = RotationFinder.new({date: date, numbers: numbers})
-    assert_instance_if RotationFinder, rotations
+    rotations = RotationFinder.new
+    assert_instance_of RotationFinder, rotations
   end
 end
