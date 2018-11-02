@@ -15,4 +15,14 @@ class EnigmaTest < Minitest::Test
     assert_equal "a", e.alpha.first
     assert_equal " ", e.alpha[26]
   end
+
+  def test_it_can_encrypt_string
+    e = Enigma.new
+    result = e.encrypt("hello world", "02715", "040895")
+    expected =  {encryption: "keder ohulw",
+                  key: "02715",
+                  date: "040895"
+                }
+    assert_equal expected, result
+  end
 end
