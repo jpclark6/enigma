@@ -18,6 +18,6 @@ class RotationFinderTest < Minitest::Test
   def test_it_can_find_date_additions
     date = "040895"
     date_numbers = [1, 0, 2, 5]
-    assert_equal date_numbers, RotationFinder(date)
+    assert_equal date_numbers, RotationFinder.find_date_numbers(date)
   end
 end
