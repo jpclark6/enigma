@@ -5,7 +5,7 @@ class Enigma
     ("a".."z").to_a << " "
   end
 
-  def encrypt(string, numbers, date = find_date)
+  def encrypt(string, numbers = find_random_key, date = find_date)
     rotations = RotationFinder.find_rotations(numbers, date)
     encrypted = cycle_string(string, rotations)
     format_return(encrypted, numbers, date, :encryption)
