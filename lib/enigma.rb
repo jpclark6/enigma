@@ -8,18 +8,18 @@ class Enigma
   def encrypt(string, numbers, date = find_date)
     rotations = RotationFinder.find_rotations(numbers, date)
     encrypted = cycle_string(string, rotations)
-    format_return(encrypted, numbers, date)
+    format_return(encrypted, numbers, date, :encryption)
   end
 
   def decrypt(string, numbers, date = find_date)
     rotations = RotationFinder.find_rotations(numbers, date)
     rotations.map! { |rotation| - rotation }
     decrypted = cycle_string(string, rotations)
-    format_return(decrypted, numbers, date)
+    format_return(decrypted, numbers, date, :decryption)
   end
 
-  def format_return(encrypted, numbers, date)
-    {encryption: encrypted, key: numbers, date: date}
+  def format_return(encrypted, numbers, date, encrypt_or_decrypt)
+    {encrypt_or_decrypt => encrypted, key: numbers, date: date}
   end
 
   def find_date
@@ -35,5 +35,11 @@ class Enigma
       encrypted_string << letter
     end
     encrypted_string
+  end
+
+  def find_random_key
+    key = ""
+    5.times { key << rand(10).to_s }
+    key
   end
 end

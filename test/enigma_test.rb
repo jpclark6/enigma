@@ -51,7 +51,7 @@ class EnigmaTest < Minitest::Test
     encrypted = "keder ohulw"
     numbers = "02715"
     date = "040895"
-    assert_equal expected, e.format_return(encrypted, numbers, date)
+    assert_equal expected, e.format_return(encrypted, numbers, date, :encryption)
   end
 
   def test_it_can_decrypt_messages
@@ -79,10 +79,10 @@ class EnigmaTest < Minitest::Test
       key = e.find_random_key
       assert_equal String, key.class
       assert_equal 5, key.length
-      if key[0] == 0
+      if key[0] == "0"
         zeros_at_front += 1
       end
     end
-    assert zeros_at_front > 0    
+    assert zeros_at_front > 0
   end
 end
