@@ -11,6 +11,13 @@ class Enigma
     format_return(encrypted, numbers, date)
   end
 
+  def decrypt(string, numbers, date = find_date)
+    rotations = RotationFinder.find_rotations(numbers, date)
+    rotations.map! { |rotation| - rotation }
+    decrypted = cycle_string(string, rotations)
+    format_return(decrypted, numbers, date)
+  end
+
   def format_return(encrypted, numbers, date)
     {encryption: encrypted, key: numbers, date: date}
   end
