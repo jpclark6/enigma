@@ -41,4 +41,16 @@ class EnigmaTest < Minitest::Test
     rotations_2 = [1, 2, 3, 4]
     assert_equal "bdfh", e.cycle_string(string, rotations_2)
   end
+
+  def test_it_can_return_formatted_answer
+    e = Enigma.new
+    expected =  {encryption: "keder ohulw",
+                  key: "02715",
+                  date: "040895"
+                }
+    encrypted = "keder ohulw"
+    numbers = "02715"
+    date = "040895"
+    assert_equal expected, e.format_return(encrypted, numbers, date)
+  end
 end
