@@ -51,6 +51,45 @@ class EnigmaTest < Minitest::Test
     encrypted = "keder ohulw"
     numbers = "02715"
     date = "040895"
-    assert_equal expected, e.format_return(encrypted, numbers, date)
+    assert_equal expected, e.format_return(encrypted, numbers, date, :encryption)
+  end
+
+  def test_it_can_decrypt_messages
+    e = Enigma.new
+    actual = e.decrypt("keder ohulw", "02715", "040895")
+    expected = {decryption: "hello world",
+                key: "02715",
+                date: "040895"
+                }
+    assert_equal expected, actual
+  end
+
+  def test_it_can_use_todays_date_to_encrypt
+    e = Enigma.new
+    date = e.find_date
+    expected = e.encrypt("hello world", "02715", date)
+    actual = e.encrypt("hello world", "02715")
+    assert_equal expected, actual
+  end
+
+  def test_it_can_find_random_key
+    e = Enigma.new
+    zeros_at_front = 0
+    50.times do
+      key = e.find_random_key
+      assert_equal String, key.class
+      assert_equal 5, key.length
+      if key[0] == "0"
+        zeros_at_front += 1
+      end
+    end
+    assert zeros_at_front > 0
+  end
+
+  def test_it_can_encrypt_without_key
+    e = Enigma.new
+    result = e.encrypt("hello world")
+    assert_equal 11, result[:encryption].length
+    assert_equal e.find_date, result[:date]
   end
 end
