@@ -25,4 +25,10 @@ class EnigmaTest < Minitest::Test
                 }
     assert_equal expected, result
   end
+
+  def test_it_can_find_date_string_from_date_class
+    expected = Date.today.strftime("%d%m%y")
+    e = Enigma.new
+    assert_equal expected, e.find_date
+  end
 end
