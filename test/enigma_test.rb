@@ -32,4 +32,13 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, e.find_date
     assert_equal 6, e.find_date.length
   end
+
+  def test_it_can_cycle_strings
+    e = Enigma.new
+    string = "abcd"
+    rotations = [1, 2]
+    assert_equal "bcdf", e.cycle_string(string, rotations)
+    rotations_2 = [1, 2, 3, 4]
+    assert_equal "bdfh", e.cycle_string(string, rotations_2)
+  end
 end

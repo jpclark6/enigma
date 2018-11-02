@@ -7,7 +7,8 @@ class Enigma
 
   def encrypt(string, numbers, date = find_date)
     rotations = RotationFinder(numbers, date)
-    encrypted = cycle(string, rotations)
+    encrypted = cycle_string(string, rotations)
+    format_return(encrypted, numbers, date)
   end
 
   def find_date
