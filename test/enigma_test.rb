@@ -71,4 +71,18 @@ class EnigmaTest < Minitest::Test
     actual = e.encrypt("hello world", "02715")
     assert_equal expected, actual
   end
+
+  def test_it_can_find_random_key
+    e = Enigma.new
+    zeros_at_front = 0
+    50.times do
+      key = e.find_random_key
+      assert_equal String, key.class
+      assert_equal 5, key.length
+      if key[0] == 0
+        zeros_at_front += 1
+      end
+    end
+    assert zeros_at_front > 0    
+  end
 end
