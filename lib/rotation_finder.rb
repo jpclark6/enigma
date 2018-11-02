@@ -10,4 +10,6 @@ class RotationFinder
     last_4 = squared_string[-4..-1].chars
     last_4.map { |num_string| num_string.to_i }
   end
+
+
 end
