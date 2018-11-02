@@ -12,14 +12,12 @@ class RotationFinderTest < Minitest::Test
   def test_it_can_find_number_pairs
     numbers = "24678"
     number_pairs = [24, 46, 67, 78]
-    rotations = RotationFinder.new
-    assert_equal number_pairs, rotations.find_number_pairs(numbers)
+    assert_equal number_pairs, RotationFinder.find_number_pairs(numbers)
   end
 
   def test_it_can_find_date_additions
     date = "040895"
     date_numbers = [1, 0, 2, 5]
-    rotations = RotationFinder.new
-    assert_equal date_numbers, rotations(date)
+    assert_equal date_numbers, RotationFinder(date)
   end
 end
