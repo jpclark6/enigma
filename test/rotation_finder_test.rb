@@ -8,4 +8,11 @@ class RotationFinderTest < Minitest::Test
     rotations = RotationFinder.new
     assert_instance_of RotationFinder, rotations
   end
+
+  def test_it_can_find_number_pairs
+    numbers = "24678"
+    number_pairs = [24, 46, 67, 78]
+    rotations = RotationFinder.new
+    assert_equal number_pairs, rotations.find_number_pairs(numbers)
+  end
 end
