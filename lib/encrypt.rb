@@ -7,15 +7,9 @@ file_path = ARGV[1]
 file_io = FileIO.new
 enigma = Enigma.new
 
-string_to_convert = file_io.read(file_to_convert)
+string_to_convert = file_io.read(file_to_convert).chomp
+# require 'pry'; binding.pry
 encryption_data = enigma.encrypt(string_to_convert)
 file_io.write(encryption_data[:encryption], file_path)
 
-puts "Created '#{file_path}' with the key #{:key} and date #{:date}"
-
-
-# ARGV[0] == "red.txt"
-# ARGV[1] == "blue.txt"
-#
-# $ ruby ./lib/encrypt.rb message.txt encrypted.txt
-# Created 'encrypted.txt' with the key 82648 and date 240818
+puts "Created '#{file_path}' with the key #{encryption_data[:key]} and date #{encryption_data[:date]}"
