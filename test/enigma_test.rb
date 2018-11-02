@@ -37,7 +37,7 @@ class EnigmaTest < Minitest::Test
     e = Enigma.new
     string = "abcd"
     rotations = [1, 2]
-    assert_equal "bcdf", e.cycle_string(string, rotations)
+    assert_equal "bddf", e.cycle_string(string, rotations)
     rotations_2 = [1, 2, 3, 4]
     assert_equal "bdfh", e.cycle_string(string, rotations_2)
   end
