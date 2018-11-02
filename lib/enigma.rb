@@ -1,4 +1,5 @@
 require './lib/rotation_finder'
+require 'date'
 
 class Enigma
   def alpha
