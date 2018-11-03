@@ -1,8 +1,11 @@
 require './lib/enigma'
 require './lib/file_io'
 
-# file_to_convert = ARGV[0]
-# file_path = ARGV[1]
+file_to_decrypt = ARGV[0]
+file_path_for_text = ARGV[1]
+key = ARGV[2]
+date = ARGV[3]
+
 #
 # file_io = FileIO.new
 # enigma = Enigma.new
