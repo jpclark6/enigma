@@ -31,4 +31,9 @@ class EnigmaCracker
     rotations.rotate!(rotate_back)
   end
 
+  def back_out_date(rotations, date)
+    date_numbers = RotationFinder.find_date_numbers(date)
+    rotations.map.with_index { |rotate, i| rotate - date_numbers[i] }
+  end
+
 end
