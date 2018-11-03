@@ -3,9 +3,7 @@ require 'date'
 require './lib/formatter'
 
 class Enigma
-  def alpha
-    ("a".."z").to_a << " "
-  end
+
 
   def encrypt(string, numbers = find_random_key, date = find_date)
     rotations = RotationFinder.find_rotations(numbers, date)
@@ -20,9 +18,7 @@ class Enigma
     Formatter.format_return(decrypted, numbers, date, :decryption)
   end
 
-  def find_date
-    Date.today.strftime("%d%m%y")
-  end
+
 
   def cycle_string(string, rotations)
     encrypted_string = ""
