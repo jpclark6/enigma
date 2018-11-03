@@ -23,10 +23,11 @@ class EnigmaCracker
     last_chars = " end"
     rotations = []
     last_chars.each_char.with_index do |char, i|
-      rotations <<  alpha.index(char) - alpha.index(encryption[-4 + i])
+      rotate = - (alpha.index(char) - alpha.index(encryption[-4 + i]))
+      rotate = rotate + alpha.length if rotate < 0
+      rotations <<  rotate
     end
-    rotate_back =  (encryption.length % 4)
-    binding.pry
+    rotate_back =  - (encryption.length % 4)
     rotations.rotate!(rotate_back)
   end
 
