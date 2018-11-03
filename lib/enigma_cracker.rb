@@ -21,6 +21,7 @@ class EnigmaCracker
     e = Enigma.new
     last_chars = " end"
     rotations = []
+    # make sure letters align with 4 digits of decryption
     last_chars.each_char.with_index do |char, i|
       rotations <<  alpha.index(char) - alpha.index(encryption[-4 + i])
     end
