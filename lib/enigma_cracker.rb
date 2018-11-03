@@ -9,15 +9,26 @@ class EnigmaCracker
   end
 
   def crack(encryption, date = find_date)
-    all_key_combos.each_with_index do |key, i|
-      data = @e.decrypt(encryption, key.join, date)
-      return data if data[:decryption][-4..-1] == " end"
-    end
+    modded_rotations = possible_rotations(encryption)
+    modded_key = back_out_date(modded_rotations, date)
+    real_key = find_real_key(modded_key)
+    binding.pry
   end
 
-  def all_key_combos
-    ("0".."9").to_a.repeated_permutation(5)
+  def find_real_key(modded_key)
+
   end
+
+  # def crack(encryption, date = find_date)
+  #   all_key_combos.each_with_index do |key, i|
+  #     data = @e.decrypt(encryption, key.join, date)
+  #     return data if data[:decryption][-4..-1] == " end"
+  #   end
+  # end
+  #
+  # def all_key_combos
+  #   ("0".."9").to_a.repeated_permutation(5)
+  # end
 
   def possible_rotations(encryption)
     last_chars = " end"
