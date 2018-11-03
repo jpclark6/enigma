@@ -26,7 +26,7 @@ class Enigma
 
   def cycle_string(string, rotations)
     encrypted_string = ""
-    string.chars.each_with_index do |char, i|
+    string.each_char.with_index do |char, i|
       char_location = alpha.index(char)
       num_to_add = rotations[i % rotations.count]
       letter = alpha[(char_location + num_to_add) % alpha.length]
