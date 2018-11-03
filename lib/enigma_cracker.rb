@@ -1,18 +1,12 @@
-require './lib/enigma'
 require './lib/enigma_helper'
 
 class EnigmaCracker
   include EnigmaHelper
 
-  def initialize
-    @e = Enigma.new
-  end
-
   def crack(encryption, date = find_date)
-    modded_rotations = possible_rotations(encryption)
-    modded_key = back_out_date(modded_rotations, date)
-    real_key = find_real_key(modded_key)
-    @e.decrypt(encryption, real_key, date)
+    rotations_after_module = possible_rotations(encryption)
+    possible_key = back_out_date(rotations_after_module, date)
+    find_real_key(possible_key)
   end
 
   def possible_rotations(encryption)
@@ -23,8 +17,13 @@ class EnigmaCracker
       rotate = rotate + alpha.length if rotate < 0
       rotations <<  rotate
     end
-    rotate_back =  - (encryption.length % 4)
-    rotations.rotate!(rotate_back)
+    fix_rotations_order(rotations, encryption)
+
+  end
+
+  def fix_rotations_order(rotations, encryption)
+    rotate_back = -(encryption.length % 4)
+    rotations.rotate(rotate_back)
   end
 
   def find_real_key(modded_key)

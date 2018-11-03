@@ -1,13 +1,13 @@
 class FileIO
-  def write(string, file)
-    new_file = File.open(file, "w")
+  def write(string, file_path)
+    new_file = File.open(file_path, "w")
     new_file.write(string)
     new_file.close
     "Success"
   end
 
-  def read(file)
-    file = File.open(file, "r")
+  def read(file_path)
+    file = File.open(file_path, "r")
     file.read
   end
 end

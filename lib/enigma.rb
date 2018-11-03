@@ -7,28 +7,31 @@ require './lib/enigma_cracker'
 class Enigma
   include EnigmaHelper
 
-  def encrypt(string, numbers = find_random_key, date = find_date)
-    rotations = RotationFinder.find_rotations(numbers, date)
-    encrypted = cycle_string(string, rotations)
-    Formatter.format_return(encrypted, numbers, date, :encryption)
+  def encrypt(string, key = find_random_key, date = find_date)
+    rotations = RotationFinder.find_rotations(key, date)
+    encrypted_string = cycle_string(string, rotations)
+    Formatter.format_return(encrypted_string, key, date, :encryption)
   end
 
   def decrypt(string, numbers, date = find_date)
     rotations = RotationFinder.find_rotations(numbers, date)
-    rotations.map! { |rotation| - rotation }
-    decrypted = cycle_string(string, rotations)
-    Formatter.format_return(decrypted, numbers, date, :decryption)
+    neg_rotations = rotations.map { |rotation| (- rotation) }
+    decrypted_string = cycle_string(string, neg_rotations)
+    Formatter.format_return(decrypted_string, numbers, date, :decryption)
   end
 
   def cycle_string(string, rotations)
-    encrypted_string = ""
+    new_string = ""
     string.each_char.with_index do |char, i|
-      char_location = alpha.index(char)
       num_to_add = rotations[i % rotations.count]
-      letter = alpha[(char_location + num_to_add) % alpha.length]
-      encrypted_string << letter
+      new_letter = alpha[(char_location(char) + num_to_add) % alpha.length]
+      new_string << new_letter
     end
-    encrypted_string
+    new_string
+  end
+
+  def char_location(char)
+    alpha.index(char)
   end
 
   def find_random_key
@@ -37,8 +40,9 @@ class Enigma
     key
   end
 
-  def crack(encrypted, date)
+  def crack(encryption, date)
     ec = EnigmaCracker.new
-    ec.crack(encrypted, date)
+    real_key = ec.crack(encryption, date)
+    decrypt(encryption, real_key, date)
   end
 end

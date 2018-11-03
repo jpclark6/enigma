@@ -2,6 +2,7 @@ require './test/test_helper'
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/enigma'
+require 'mocha/minitest'
 
 class EnigmaTest < Minitest::Test
   def test_it_exists
@@ -79,5 +80,25 @@ class EnigmaTest < Minitest::Test
     result = e.encrypt("hello world")
     assert_equal 11, result[:encryption].length
     assert_equal e.find_date, result[:date]
+  end
+
+  def test_it_can_use_mocha_in_an_unnecessary_way
+    e = mock("enigma")
+    e.stubs(:find_date).returns("031118")
+    e.stubs(:but_why).returns("Sorry!")
+
+    assert_equal "031118", e.find_date
+    assert_equal "Sorry!", e.but_why
+  end
+
+  def test_enigma_can_use_cracker
+    e = Enigma.new
+    date = "031118"
+    expected_message = "trying to crack another end"
+    expected_key = "84295"
+    encryption = "eob zddk xgim ormksktbvrqkh"
+    actual = e.crack(encryption, date)
+    assert_equal expected_message, actual[:decryption]
+    assert_equal expected_key, actual[:key]
   end
 end
