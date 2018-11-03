@@ -6,6 +6,4 @@ module EnigmaHelper
   def find_date
     Date.today.strftime("%d%m%y")
   end
-
-  
 end
