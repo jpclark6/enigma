@@ -19,14 +19,15 @@ class EnigmaCracker
     ("0".."9").to_a.repeated_permutation(5)
   end
 
-  def super_crack(encryption)
+  def possible_rotations(encryption)
     last_chars = " end"
     rotations = []
-    # make sure letters align with 4 digits of decryption
     last_chars.each_char.with_index do |char, i|
       rotations <<  alpha.index(char) - alpha.index(encryption[-4 + i])
     end
-    @e.cycle_string(encryption, rotations)
+    rotate_back =  (encryption.length % 4)
+    binding.pry
+    rotations.rotate!(rotate_back)
   end
 
 end

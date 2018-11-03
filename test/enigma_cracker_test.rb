@@ -20,12 +20,23 @@ class EnigmaCrackerTest < Minitest::Test
     assert_equal expected_key, actual[:key]
   end
 
-  def test_it_can_crack_code_without_key
+  def test_it_can_find_possible_rotations
     ec = EnigmaCracker.new
-    encryption = "uznu r ywarsgr q rhilr vriesrcny"
-    expected = "can it decrypt without a key end"
-    actual = ec.super_crack(encryption)
-    assert_equal expected, actual
-  end
+    encryption = "jlrjigddu"
+    date = "031118"
+    actual_key = "62513"
+    date_numbers = [9, 9, 2, 4]
+    key_numbers = [62, 25, 51, 13]
+    rotations = [71, 34, 53, 17]
+    expected = [17, 7, 26, 17]
+    possible_rotations(encryption)
+
+  # def test_it_can_crack_code_without_key
+  #   ec = EnigmaCracker.new
+  #   encryption = "uznu r ywarsgr q rhilr vriesrcny"
+  #   expected = "can it decrypt without a key end"
+  #   actual = ec.super_crack(encryption)
+  #   assert_equal expected, actual
+  # end
 
 end
