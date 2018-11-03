@@ -9,15 +9,15 @@ class Enigma
 
   def encrypt(string, numbers = find_random_key, date = find_date)
     rotations = RotationFinder.find_rotations(numbers, date)
-    encrypted = cycle_string(string, rotations)
-    Formatter.format_return(encrypted, numbers, date, :encryption)
+    encrypted_string = cycle_string(string, rotations)
+    Formatter.format_return(encrypted_string, numbers, date, :encryption)
   end
 
   def decrypt(string, numbers, date = find_date)
     rotations = RotationFinder.find_rotations(numbers, date)
-    rotations.map! { |rotation| - rotation }
-    decrypted = cycle_string(string, rotations)
-    Formatter.format_return(decrypted, numbers, date, :decryption)
+    neg_rotations = rotations.map { |rotation| (- rotation) }
+    decrypted_string = cycle_string(string, neg_rotations)
+    Formatter.format_return(decrypted_string, numbers, date, :decryption)
   end
 
   def cycle_string(string, rotations)

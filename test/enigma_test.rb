@@ -80,4 +80,15 @@ class EnigmaTest < Minitest::Test
     assert_equal 11, result[:encryption].length
     assert_equal e.find_date, result[:date]
   end
+
+  def test_enigma_can_use_cracker
+    e = Enigma.new
+    date = "031118"
+    expected_message = "trying to crack another end"
+    expected_key = "84295"
+    encryption = "eob zddk xgim ormksktbvrqkh"
+    actual = e.crack(encryption, date)
+    assert_equal expected_message, actual[:decryption]
+    assert_equal expected_key, actual[:key]
+  end
 end
