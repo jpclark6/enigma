@@ -3,15 +3,10 @@ require './lib/enigma_helper'
 class EnigmaCracker
   include EnigmaHelper
 
-  def initialize
-    @e = Enigma.new
-  end
-
   def crack(encryption, date = find_date)
     modded_rotations = possible_rotations(encryption)
     modded_key = back_out_date(modded_rotations, date)
-    real_key = find_real_key(modded_key)
-
+    find_real_key(modded_key)
   end
 
   def possible_rotations(encryption)
