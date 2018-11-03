@@ -15,18 +15,33 @@ class EnigmaCracker
     @e.decrypt(encryption, real_key, date)
   end
 
+  def possible_rotations(encryption)
+    last_chars = " end"
+    rotations = []
+    last_chars.each_char.with_index do |char, i|
+      rotate = - (alpha.index(char) - alpha.index(encryption[-4 + i]))
+      rotate = rotate + alpha.length if rotate < 0
+      rotations <<  rotate
+    end
+    rotate_back =  - (encryption.length % 4)
+    rotations.rotate!(rotate_back)
+  end
+
   def find_real_key(modded_key)
     modded_key.map! { |num| num % alpha.length }
-    multipliers = (0..4).to_a.repeated_permutation(4)
-    nums_to_add = multipliers.map do |a, b, c, d|
-      mod_to_add = alpha.length
-      [a * mod_to_add, b * mod_to_add, c * mod_to_add, d * mod_to_add]
+    upper_mod_bound = 1
+    4.times do
+      multipliers = (0..upper_mod_bound).to_a.repeated_permutation(4)
+      nums_to_add = multipliers.map do |rotations|
+        mod_to_add = alpha.length
+        rotations.map! { |loc| loc * mod_to_add }
+      end
+      nums_to_add.find do |mods|
+        possible_key = combine_key_and_mods(modded_key, mods)
+        return key_to_string(possible_key) if key_valid?(possible_key)
+      end
+      upper_mod_bound += 1
     end
-    nums_to_add.find do |mods|
-      possible_key = combine_key_and_mods(modded_key, mods)
-      return key_to_string(possible_key) if key_valid?(possible_key)
-    end
-    "Cannot find key"
   end
 
   def key_to_string(key_array)
@@ -62,29 +77,6 @@ class EnigmaCracker
       end
       string_num
     end
-  end
-
-  # def crack(encryption, date = find_date)
-  #   all_key_combos.each_with_index do |key, i|
-  #     data = @e.decrypt(encryption, key.join, date)
-  #     return data if data[:decryption][-4..-1] == " end"
-  #   end
-  # end
-  #
-  # def all_key_combos
-  #   ("0".."9").to_a.repeated_permutation(5)
-  # end
-
-  def possible_rotations(encryption)
-    last_chars = " end"
-    rotations = []
-    last_chars.each_char.with_index do |char, i|
-      rotate = - (alpha.index(char) - alpha.index(encryption[-4 + i]))
-      rotate = rotate + alpha.length if rotate < 0
-      rotations <<  rotate
-    end
-    rotate_back =  - (encryption.length % 4)
-    rotations.rotate!(rotate_back)
   end
 
   def back_out_date(rotations, date)
