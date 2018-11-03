@@ -7,10 +7,10 @@ require './lib/enigma_cracker'
 class Enigma
   include EnigmaHelper
 
-  def encrypt(string, numbers = find_random_key, date = find_date)
-    rotations = RotationFinder.find_rotations(numbers, date)
+  def encrypt(string, key = find_random_key, date = find_date)
+    rotations = RotationFinder.find_rotations(key, date)
     encrypted_string = cycle_string(string, rotations)
-    Formatter.format_return(encrypted_string, numbers, date, :encryption)
+    Formatter.format_return(encrypted_string, key, date, :encryption)
   end
 
   def decrypt(string, numbers, date = find_date)
@@ -21,14 +21,17 @@ class Enigma
   end
 
   def cycle_string(string, rotations)
-    encrypted_string = ""
+    new_string = ""
     string.each_char.with_index do |char, i|
-      char_location = alpha.index(char)
       num_to_add = rotations[i % rotations.count]
-      letter = alpha[(char_location + num_to_add) % alpha.length]
-      encrypted_string << letter
+      new_letter = alpha[(char_location(char) + num_to_add) % alpha.length]
+      new_string << new_letter
     end
-    encrypted_string
+    new_string
+  end
+
+  def char_location(char)
+    alpha.index(char)
   end
 
   def find_random_key

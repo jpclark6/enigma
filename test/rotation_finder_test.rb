@@ -9,10 +9,10 @@ class RotationFinderTest < Minitest::Test
     assert_instance_of RotationFinder, rotations
   end
 
-  def test_it_can_find_number_pairs
-    numbers = "24678"
-    number_pairs = [24, 46, 67, 78]
-    assert_equal number_pairs, RotationFinder.find_number_pairs(numbers)
+  def test_it_can_find_key_pairs
+    key = "24678"
+    key_pairs = [24, 46, 67, 78]
+    assert_equal key_pairs, RotationFinder.find_key_pairs(key)
   end
 
   def test_it_can_find_date_additions

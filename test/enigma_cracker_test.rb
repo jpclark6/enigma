@@ -2,6 +2,7 @@ require './test/test_helper'
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/enigma_cracker'
+require './lib/enigma'
 
 class EnigmaCrackerTest < Minitest::Test
   def test_it_exists
@@ -11,24 +12,26 @@ class EnigmaCrackerTest < Minitest::Test
 
   def test_it_can_crack_code
     ec = EnigmaCracker.new
+    e = Enigma.new
     date = "021118"
     expected_message = "see if you can crack this one end"
     expected_key = "00241"
     encryption = "apdrrqzpxezujyzu lbbidg aknenkdem"
-    actual = ec.crack(encryption, date)
+    actual_key = ec.crack(encryption, date)
+    actual = e.crack(encryption, date)
+    assert_equal expected_key, actual_key
     assert_equal expected_message, actual[:decryption]
     assert_equal expected_key, actual[:key]
   end
 
-  def test_it_can_crack_another_code
+  def test_it_can_crack_another_key
     ec = EnigmaCracker.new
     date = "031118"
-    expected_message = "trying to crack another end"
+    # expected_message = "trying to crack another end"
     expected_key = "84295"
     encryption = "eob zddk xgim ormksktbvrqkh"
-    actual = ec.crack(encryption, date)
-    assert_equal expected_message, actual[:decryption]
-    assert_equal expected_key, actual[:key]
+    actual_key = ec.crack(encryption, date)
+    assert_equal expected_key, actual_key
   end
 
   def test_it_can_find_possible_rotations
