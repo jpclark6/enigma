@@ -28,7 +28,6 @@ class EnigmaCracker
       working_key = combine_key_and_mods(possible_key, mods)
       return key_to_string(working_key) if key_valid?(working_key)
     end
-    upper_mod_bound += 1
   end
 
   def nums_to_add_to_possible_key
