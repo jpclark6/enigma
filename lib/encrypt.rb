@@ -8,7 +8,6 @@ file_io = FileIO.new
 enigma = Enigma.new
 
 string_to_convert = file_io.read(file_to_convert).chomp
-# require 'pry'; binding.pry
 encryption_data = enigma.encrypt(string_to_convert)
 file_io.write(encryption_data[:encryption], file_path)
 
