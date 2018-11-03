@@ -47,7 +47,14 @@ class EnigmaCrackerTest < Minitest::Test
     valid = [2, 24, 41, 10]
     invalid = [13, 41, 31, 4]
     assert_equal true, ec.key_valid?(valid)
-    assert_equal true, ec.key_valid?(invalid)
+    assert_equal false, ec.key_valid?(invalid)
+  end
+
+  def test_it_can_make_key_strings
+    ec = EnigmaCracker.new
+    key = [2, 24, 41, 10]
+    expected = ['02', '24', '41', '10']
+    assert_equal expected, ec.make_key_strings(key)
   end
 
 end

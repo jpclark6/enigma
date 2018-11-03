@@ -32,8 +32,25 @@ class EnigmaCracker
     "Cannot find key"
   end
 
-  def key_valid?(a, b, c, d)
+  def key_valid?(key)
+    valid = true
+    key_strings = make_key_strings(key)
+    (0..2).each do |i|
+      if key_strings[i][1] != key_strings[i + 1][0]
+        valid = false
+      end
+    end
+    valid
+  end
 
+  def make_key_strings(key)
+    key.map do |num|
+      string_num = num.to_s
+      if string_num.length == 1
+        string_num = "0" + string_num
+      end
+      string_num
+    end
   end
 
   # def crack(encryption, date = find_date)
