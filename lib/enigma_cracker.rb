@@ -57,9 +57,7 @@ class EnigmaCracker
     valid = true
     key_strings = make_key_string_pairs(key)
     (0..2).each do |i|
-      if key_strings[i][1] != key_strings[i + 1][0]
-        valid = false
-      end
+      valid = false if key_strings[i][1] != key_strings[i + 1][0]
     end
     valid
   end
