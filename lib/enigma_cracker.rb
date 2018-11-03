@@ -1,35 +1,87 @@
 require './lib/enigma'
+require './lib/enigma_helper'
 
 class EnigmaCracker
+  include EnigmaHelper
+
+  def initialize
+    @e = Enigma.new
+  end
+
   def crack(encryption, date = find_date)
-    e = Enigma.new
-    all_key_combos.each_with_index do |key, i|
-      data = e.decrypt(encryption, key.join, date)
-      return data if data[:decryption][-4..-1] == " end"
-    end
+    modded_rotations = possible_rotations(encryption)
+    modded_key = back_out_date(modded_rotations, date)
+    real_key = find_real_key(modded_key)
+    @e.decrypt(encryption, real_key, date)
   end
 
-  def all_key_combos
-    ("0".."9").to_a.repeated_permutation(5)
-  end
-
-  def find_date
-    Date.today.strftime("%d%m%y")
-  end
-
-  def super_crack(encryption)
-    e = Enigma.new
+  def possible_rotations(encryption)
     last_chars = " end"
     rotations = []
-    # make sure letters align with 4 digits of decryption
     last_chars.each_char.with_index do |char, i|
-      rotations <<  alpha.index(char) - alpha.index(encryption[-4 + i])
+      rotate = - (alpha.index(char) - alpha.index(encryption[-4 + i]))
+      rotate = rotate + alpha.length if rotate < 0
+      rotations <<  rotate
     end
-    e.cycle_string(encryption, rotations)
+    rotate_back =  - (encryption.length % 4)
+    rotations.rotate!(rotate_back)
   end
 
-  def alpha
-    ("a".."z").to_a << " "
+  def find_real_key(modded_key)
+    modded_key.map! { |num| num % alpha.length }
+    upper_mod_bound = 1
+    4.times do
+      multipliers = (0..upper_mod_bound).to_a.repeated_permutation(4)
+      nums_to_add = multipliers.map do |rotations|
+        mod_to_add = alpha.length
+        rotations.map! { |loc| loc * mod_to_add }
+      end
+      nums_to_add.find do |mods|
+        possible_key = combine_key_and_mods(modded_key, mods)
+        return key_to_string(possible_key) if key_valid?(possible_key)
+      end
+      upper_mod_bound += 1
+    end
+  end
+
+  def key_to_string(key_array)
+    key_strings = make_key_strings(key_array)
+    key = ""
+    key << key_strings[0]
+    key << key_strings[1][1]
+    key << key_strings[3]
+  end
+
+  def combine_key_and_mods(modded_key, mods)
+    modded_key.map.with_index do |modded_key_num, i|
+      modded_key_num + mods[i]
+    end
+  end
+
+  def key_valid?(key)
+    valid = true
+    key_strings = make_key_strings(key)
+    (0..2).each do |i|
+      if key_strings[i][1] != key_strings[i + 1][0]
+        valid = false
+      end
+    end
+    valid
+  end
+
+  def make_key_strings(key)
+    key.map do |num|
+      string_num = num.to_s
+      if string_num.length == 1
+        string_num = "0" + string_num
+      end
+      string_num
+    end
+  end
+
+  def back_out_date(rotations, date)
+    date_numbers = RotationFinder.find_date_numbers(date)
+    rotations.map.with_index { |rotate, i| rotate - date_numbers[i] }
   end
 
 end

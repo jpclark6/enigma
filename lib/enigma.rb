@@ -1,11 +1,11 @@
 require './lib/rotation_finder'
 require 'date'
 require './lib/formatter'
+require './lib/enigma_helper'
+require './lib/enigma_cracker'
 
 class Enigma
-  def alpha
-    ("a".."z").to_a << " "
-  end
+  include EnigmaHelper
 
   def encrypt(string, numbers = find_random_key, date = find_date)
     rotations = RotationFinder.find_rotations(numbers, date)
@@ -18,10 +18,6 @@ class Enigma
     rotations.map! { |rotation| - rotation }
     decrypted = cycle_string(string, rotations)
     Formatter.format_return(decrypted, numbers, date, :decryption)
-  end
-
-  def find_date
-    Date.today.strftime("%d%m%y")
   end
 
   def cycle_string(string, rotations)
@@ -39,5 +35,10 @@ class Enigma
     key = ""
     5.times { key << rand(10).to_s }
     key
+  end
+
+  def crack(encrypted, date)
+    ec = EnigmaCracker.new
+    ec.crack(encrypted, date)
   end
 end
