@@ -41,4 +41,13 @@ class EnigmaCrackerTest < Minitest::Test
     assert_equal expected, ec.back_out_date(rotations, date)
   end
 
+  def test_if_it_can_tell_if_key_is_valid_from_4_nums
+    ec = EnigmaCracker.new
+    # valid_key = "02410"
+    valid = [2, 24, 41, 10]
+    invalid = [13, 41, 31, 4]
+    assert_equal true, ec.key_valid?(valid)
+    assert_equal true, ec.key_valid?(invalid)
+  end
+
 end

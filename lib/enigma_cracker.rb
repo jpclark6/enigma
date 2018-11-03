@@ -16,6 +16,23 @@ class EnigmaCracker
   end
 
   def find_real_key(modded_key)
+    modded_key.map! { |num| num % alpha.length }
+    multipliers = (0..4).to_a.repeated_permutation(4)
+    nums_to_add = multipliers.map do |a, b, c, d|
+      mod_to_add = alpha.length
+      [a * mod_to_add, b * mod_to_add, c * mod_to_add, d * mod_to_add]
+    end
+    nums_to_add.find do |mod_a, mod_b, mod_c, mod_d|
+      a = make_pair(modded_key[0], mod_a)
+      b = make_pair(modded_key[1], mod_b)
+      c = make_pair(modded_key[2], mod_c)
+      d = make_pair(modded_key[3], mod_d)
+      return combined_key(a, b, c, d) if key_valid?([a, b, c, d])
+    end
+    "Cannot find key"
+  end
+
+  def key_valid?(a, b, c, d)
 
   end
 
