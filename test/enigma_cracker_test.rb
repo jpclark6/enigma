@@ -22,14 +22,25 @@ class EnigmaCrackerTest < Minitest::Test
 
   def test_it_can_find_possible_rotations
     ec = EnigmaCracker.new
-    encryption = "jlrjigddu"
     # date = "031118"
     # actual_key = "62513"
     # date_numbers = [9, 9, 2, 4]
     # key_numbers = [62, 25, 51, 13]
+    encryption = "jlrjigddu"
     rotations = [71, 34, 53, 17]
     expected = rotations.map { |rotate| rotate % ec.alpha.length }
     assert_equal expected, ec.possible_rotations(encryption)
+  end
+
+  def test_it_can_back_out_date
+    ec = EnigmaCracker.new
+    date = "031118"
+    date_numbers = [9, 9, 2, 4]
+    rotations = [71, 34, 53, 17]
+    expected = rotations.map.with_index do |rotate, i|
+      rotate - date_numbers[i]
+    end
+    assert_equal expected, ec.back_out_date(rotations, date)
   end
 
 end
