@@ -20,6 +20,17 @@ class EnigmaCrackerTest < Minitest::Test
     assert_equal expected_key, actual[:key]
   end
 
+  def test_it_can_crack_another_code
+    ec = EnigmaCracker.new
+    date = "031118"
+    expected_message = "trying to crack another end"
+    expected_key = "84295"
+    encryption = "eob zddk xgim ormksktbvrqkh"
+    actual = ec.crack(encryption, date)
+    assert_equal expected_message, actual[:decryption]
+    assert_equal expected_key, actual[:key]
+  end
+
   def test_it_can_find_possible_rotations
     ec = EnigmaCracker.new
     # date = "031118"
