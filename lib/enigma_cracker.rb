@@ -16,4 +16,22 @@ class EnigmaCracker
   def find_date
     Date.today.strftime("%d%m%y")
   end
+
+
+
+  def super_crack(encryption)
+    e = Enigma.new
+    last_chars = " end"
+    rotations = []
+    last_chars.each_char.with_index do |char, i|
+      rotations <<  alpha.index(char) - alpha.index(encryption[-4 + i]) 
+    end
+    e.cycle_string(encryption, rotations)
+  end
+
+
+  def alpha
+    ("a".."z").to_a << " "
+  end
+
 end
