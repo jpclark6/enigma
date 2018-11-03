@@ -12,7 +12,7 @@ class EnigmaCracker
     modded_rotations = possible_rotations(encryption)
     modded_key = back_out_date(modded_rotations, date)
     real_key = find_real_key(modded_key)
-    binding.pry
+    decrypt(encryption, real_key, date)
   end
 
   def find_real_key(modded_key)
