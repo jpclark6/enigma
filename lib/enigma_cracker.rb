@@ -1,4 +1,3 @@
-require './lib/enigma'
 require './lib/enigma_helper'
 
 class EnigmaCracker
@@ -12,7 +11,7 @@ class EnigmaCracker
     modded_rotations = possible_rotations(encryption)
     modded_key = back_out_date(modded_rotations, date)
     real_key = find_real_key(modded_key)
-    @e.decrypt(encryption, real_key, date)
+
   end
 
   def possible_rotations(encryption)
