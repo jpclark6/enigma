@@ -12,7 +12,7 @@ class EnigmaCracker
     modded_rotations = possible_rotations(encryption)
     modded_key = back_out_date(modded_rotations, date)
     real_key = find_real_key(modded_key)
-    decrypt(encryption, real_key, date)
+    @e.decrypt(encryption, real_key, date)
   end
 
   def find_real_key(modded_key)
@@ -22,14 +22,25 @@ class EnigmaCracker
       mod_to_add = alpha.length
       [a * mod_to_add, b * mod_to_add, c * mod_to_add, d * mod_to_add]
     end
-    nums_to_add.find do |mod_a, mod_b, mod_c, mod_d|
-      a = make_pair(modded_key[0], mod_a)
-      b = make_pair(modded_key[1], mod_b)
-      c = make_pair(modded_key[2], mod_c)
-      d = make_pair(modded_key[3], mod_d)
-      return combined_key(a, b, c, d) if key_valid?([a, b, c, d])
+    nums_to_add.find do |mods|
+      possible_key = combine_key_and_mods(modded_key, mods)
+      return key_to_string(possible_key) if key_valid?(possible_key)
     end
     "Cannot find key"
+  end
+
+  def key_to_string(key_array)
+    key_strings = make_key_strings(key_array)
+    key = ""
+    key << key_strings[0]
+    key << key_strings[1][1]
+    key << key_strings[3]
+  end
+
+  def combine_key_and_mods(modded_key, mods)
+    modded_key.map.with_index do |modded_key_num, i|
+      modded_key_num + mods[i]
+    end
   end
 
   def key_valid?(key)
