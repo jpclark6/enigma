@@ -20,4 +20,12 @@ class EnigmaCrackerTest < Minitest::Test
     assert_equal expected_key, actual[:key]
   end
 
+  def test_it_can_crack_code_without_key
+    ec = EnigmaCracker.new
+    encryption = "uznu r ywarsgr q rhilr vriesrcny"
+    expected = "can it decrypt without a key end"
+    actual = ec.super_crack(encryption)
+    assert_equal expected, actual
+  end
+
 end
