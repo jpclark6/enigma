@@ -1,5 +1,6 @@
 require './lib/rotation_finder'
 require 'date'
+require './lib/formatter'
 
 class Enigma
   def alpha
@@ -9,18 +10,14 @@ class Enigma
   def encrypt(string, numbers = find_random_key, date = find_date)
     rotations = RotationFinder.find_rotations(numbers, date)
     encrypted = cycle_string(string, rotations)
-    format_return(encrypted, numbers, date, :encryption)
+    Formatter.format_return(encrypted, numbers, date, :encryption)
   end
 
   def decrypt(string, numbers, date = find_date)
     rotations = RotationFinder.find_rotations(numbers, date)
     rotations.map! { |rotation| - rotation }
     decrypted = cycle_string(string, rotations)
-    format_return(decrypted, numbers, date, :decryption)
-  end
-
-  def format_return(encrypted, numbers, date, encrypt_or_decrypt)
-    {encrypt_or_decrypt => encrypted, key: numbers, date: date}
+    Formatter.format_return(decrypted, numbers, date, :decryption)
   end
 
   def find_date

@@ -42,18 +42,6 @@ class EnigmaTest < Minitest::Test
     assert_equal "bdfh", e.cycle_string(string, rotations_2)
   end
 
-  def test_it_can_return_formatted_answer
-    e = Enigma.new
-    expected =  {encryption: "keder ohulw",
-                  key: "02715",
-                  date: "040895"
-                }
-    encrypted = "keder ohulw"
-    numbers = "02715"
-    date = "040895"
-    assert_equal expected, e.format_return(encrypted, numbers, date, :encryption)
-  end
-
   def test_it_can_decrypt_messages
     e = Enigma.new
     actual = e.decrypt("keder ohulw", "02715", "040895")
