@@ -68,7 +68,7 @@ class EnigmaCrackerTest < Minitest::Test
     ec = EnigmaCracker.new
     key = [2, 24, 41, 10]
     expected = ['02', '24', '41', '10']
-    assert_equal expected, ec.make_key_strings(key)
+    assert_equal expected, ec.make_key_string_pairs(key)
   end
 
 end

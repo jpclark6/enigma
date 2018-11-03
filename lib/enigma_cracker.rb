@@ -24,24 +24,23 @@ class EnigmaCracker
   end
 
   def find_real_key(possible_key)
-    possible_key.map! { |num| num % alpha.length }
-    upper_mod_bound = 1
-    4.times do
-      multipliers = (0..upper_mod_bound).to_a.repeated_permutation(4)
-      nums_to_add = multipliers.map do |rotations|
-        mod_to_add = alpha.length
-        rotations.map! { |loc| loc * mod_to_add }
-      end
-      nums_to_add.find do |mods|
-        working_key = combine_key_and_mods(possible_key, mods)
-        return key_to_string(working_key) if key_valid?(working_key)
-      end
-      upper_mod_bound += 1
+    nums_to_add_to_possible_key.find do |mods|
+      working_key = combine_key_and_mods(possible_key, mods)
+      return key_to_string(working_key) if key_valid?(working_key)
+    end
+    upper_mod_bound += 1
+  end
+
+  def nums_to_add_to_possible_key
+    multipliers = (0..3).to_a.repeated_permutation(4)
+    multipliers.map do |factors_of_alpha_length_to_add|
+      mod_to_add = alpha.length
+      factors_of_alpha_length_to_add.map { |loc| loc * mod_to_add }
     end
   end
 
   def key_to_string(key_array)
-    key_strings = make_key_strings(key_array)
+    key_strings = make_key_string_pairs(key_array)
     key = ""
     key << key_strings[0]
     key << key_strings[1][1]
@@ -56,7 +55,7 @@ class EnigmaCracker
 
   def key_valid?(key)
     valid = true
-    key_strings = make_key_strings(key)
+    key_strings = make_key_string_pairs(key)
     (0..2).each do |i|
       if key_strings[i][1] != key_strings[i + 1][0]
         valid = false
@@ -65,7 +64,7 @@ class EnigmaCracker
     valid
   end
 
-  def make_key_strings(key)
+  def make_key_string_pairs(key)
     key.map do |num|
       string_num = num.to_s
       if string_num.length == 1
@@ -79,5 +78,4 @@ class EnigmaCracker
     date_numbers = RotationFinder.find_date_numbers(date)
     rotations.map.with_index { |rotate, i| rotate - date_numbers[i] }
   end
-
 end
