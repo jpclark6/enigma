@@ -2,6 +2,7 @@ require './lib/rotation_finder'
 require 'date'
 require './lib/formatter'
 require './lib/enigma_helper'
+require './lib/enigma_cracker'
 
 class Enigma
   include EnigmaHelper
@@ -34,5 +35,10 @@ class Enigma
     key = ""
     5.times { key << rand(10).to_s }
     key
+  end
+
+  def crack(encrypted, date)
+    ec = EnigmaCracker.new
+    ec.crack(encrypted, date)
   end
 end
