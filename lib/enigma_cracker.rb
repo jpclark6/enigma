@@ -10,15 +10,12 @@ class EnigmaCracker
   end
 
   def possible_rotations(encryption)
-    last_chars = " end"
-    rotations = []
-    last_chars.each_char.with_index do |char, i|
+    rotations = " end".chars.map.with_index do |char, i|
       rotate = - (alpha.index(char) - alpha.index(encryption[-4 + i]))
       rotate = rotate + alpha.length if rotate < 0
-      rotations <<  rotate
+      rotate
     end
     fix_rotations_order(rotations, encryption)
-
   end
 
   def fix_rotations_order(rotations, encryption)
@@ -26,8 +23,8 @@ class EnigmaCracker
     rotations.rotate(rotate_back)
   end
 
-  def find_real_key(modded_key)
-    modded_key.map! { |num| num % alpha.length }
+  def find_real_key(possible_key)
+    possible_key.map! { |num| num % alpha.length }
     upper_mod_bound = 1
     4.times do
       multipliers = (0..upper_mod_bound).to_a.repeated_permutation(4)
@@ -36,8 +33,8 @@ class EnigmaCracker
         rotations.map! { |loc| loc * mod_to_add }
       end
       nums_to_add.find do |mods|
-        possible_key = combine_key_and_mods(modded_key, mods)
-        return key_to_string(possible_key) if key_valid?(possible_key)
+        working_key = combine_key_and_mods(possible_key, mods)
+        return key_to_string(working_key) if key_valid?(working_key)
       end
       upper_mod_bound += 1
     end
