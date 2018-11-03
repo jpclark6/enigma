@@ -10,6 +10,7 @@ class EnigmaCrackerTest < Minitest::Test
   end
 
   def test_it_can_crack_code
+    skip # takes 30 seconds to find answer currently
     ec = EnigmaCracker.new
     date = "021118"
     expected_message = "see if you can crack this end"
