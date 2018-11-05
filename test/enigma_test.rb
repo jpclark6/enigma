@@ -53,6 +53,18 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, actual
   end
 
+  def test_it_can_encrypt_and_decrypt_punctuation_and_upcase
+    e = Enigma.new
+    result = e.encrypt("HELLO world!", "02715", "040895")
+    expected =  {encryption: "keder ohulw!",
+                  key: "02715",
+                  date: "040895"
+                }
+    assert_equal expected, result
+    result_d = e.decrypt("keder ohulw!", "02715", "040895")
+    assert_equal "hello world!", result_d[:decryption]
+  end
+
   def test_it_can_use_todays_date_to_encrypt
     e = Enigma.new
     date = e.find_date

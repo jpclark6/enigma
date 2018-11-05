@@ -8,12 +8,14 @@ class Enigma
   include EnigmaHelper
 
   def encrypt(string, key = find_random_key, date = find_date)
+    string = string.downcase
     rotations = RotationFinder.find_rotations(key, date)
     encrypted_string = cycle_string(string, rotations)
     Formatter.format_return(encrypted_string, key, date, :encryption)
   end
 
   def decrypt(string, numbers, date = find_date)
+    string = string.downcase
     rotations = RotationFinder.find_rotations(numbers, date)
     neg_rotations = rotations.map { |rotation| (- rotation) }
     decrypted_string = cycle_string(string, neg_rotations)
@@ -23,9 +25,12 @@ class Enigma
   def cycle_string(string, rotations)
     new_string = ""
     string.each_char.with_index do |char, i|
-      num_to_add = rotations[i % rotations.count]
-      new_letter = alpha[(char_location(char) + num_to_add) % alpha.length]
-      new_string << new_letter
+      if alpha.index(char)
+        num_to_add = rotations[i % rotations.count]
+        new_string << alpha[(char_location(char) + num_to_add) % alpha.length]
+      else
+        new_string << char
+      end
     end
     new_string
   end
