@@ -45,7 +45,7 @@ class Enigma
     key
   end
 
-  def crack(encryption, date)
+  def crack(encryption, date = find_date)
     ec = EnigmaCracker.new
     real_key = ec.crack(encryption, date)
     decrypt(encryption, real_key, date)
