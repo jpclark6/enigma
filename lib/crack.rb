@@ -3,7 +3,7 @@ require './lib/file_io'
 
 file_to_crack = ARGV[0]
 cracked_file = ARGV[1]
-date = ARGV[2]
+date = ARGV[2] unless nil
 
 file_io = FileIO.new
 e = Enigma.new
